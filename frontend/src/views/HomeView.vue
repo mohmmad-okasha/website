@@ -15,8 +15,9 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
+            <li><a href="/#/dashboard">Dashboard</a></li>
+            <li><a href="/#/links">Links</a></li>
+            <!-- <li><a href="services.html">Services</a></li>
             <li><a href="projects.html">Projects</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li class="dropdown"><a href="#"><span>Dropdown</span> <i
@@ -38,7 +39,7 @@
                 <li><a href="#">Dropdown 4</a></li>
               </ul>
             </li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="contact.html">Contact</a></li> -->
           </ul>
         </nav><!-- .navbar -->
 
@@ -94,7 +95,44 @@
       </div>
     </section><!-- End Subjects Section -->
 
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
 
+      <div class="footer-content position-relative">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-4 col-md-6">
+              <div class="footer-info">
+                <h3>جامعة فلسطين التقنية</h3>
+                <p>
+                  كلية الهندسة والتكنلوجيا <br>
+                  نادي هندسة البناء<br><br>
+                  <strong>Phone:</strong> +1 5589 55488 55<br>
+                  <strong>Email:</strong> info@example.com<br>
+                </p>
+                <div class="social-links d-flex mt-3">
+                  <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-twitter"></i></a>
+                  <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+                  <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-instagram"></i></a>
+                  <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div><!-- End footer info column-->
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-legal text-center position-relative">
+        <div class="container">
+
+        </div>
+      </div>
+
+    </footer>
+    <!-- End Footer -->
 
   </div>
 </template>
@@ -135,6 +173,10 @@ export default {
       return my_api.get('/backend/subjects/')
         .then((response) => (this.subjects = response.data))
         .catch(err => { alert(err) });
+    },
+    go_to() {
+      const myDiv = document.getElementById('services'); // Replace 'myDiv' with the ID of your target div
+      myDiv.scrollIntoView({ behavior: 'smooth' });
     }
   }
 };

@@ -1,10 +1,10 @@
 <template>
-    <div class="SubjectsView">
+    <div class="LinksView">
 
         <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
             <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate"
                 data-aos="fade">
-                <h2>Dashboard</h2>
+                <h2>Links</h2>
                 <br>
                 <a href="/#/"><i class="fa-solid fa-house"></i></a>
 
@@ -12,18 +12,24 @@
         </div>
 
 
-        
-        <!-- ======= Subjects Section ======= -->
+
+        <!-- ======= Links Section ======= -->
         <section id="services" class="services section-bg">
             <div class="container" data-aos="fade-up">
 
-                <!-- subjects table -->
+                <!-- Links table -->
                 <div class="col-xl-12 center">
 
                     <div class="card">
+                        <div class="form-group m-3">
+                            <label> {{ $t("Subject") }}</label>
+                            <select v-model="link.subject_id" @change="this.get_links" class="form-control">
+                                <option v-for="s in this.subjects" :key="s.id" :value="s.id">{{ s.name }}</option>
+                            </select>
+                        </div>
 
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h4>{{ $t("Subjects Table") }} </h4>
+                            <h4>{{ $t("Links Table") }} </h4>
                             <div class="dropdown no-arrow">
                                 <div class="form-group">
                                     <button v-if="!edit_mode" type="button" title="New" @click="open_add_modal()"
@@ -38,25 +44,22 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">{{ $t("Subject") }}</th>
+                                        <th scope="col">{{ $t("Title") }}</th>
                                         <th scope="col">{{ $t("Description") }}</th>
-                                        <th scope="col" class="no_print">{{ $t("Image") }}</th>
+                                        <th scope="col">{{ $t("URL") }}</th>
                                         <th scope="col" class="no_print">{{ $t("Actions") }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="s in this.subjects" :key="s.id" @click="row_click(s.id)"
+                                    <tr v-for="s in this.links" :key="s.id" @click="row_click(s.id)"
                                         @click.right="row_click(s.id)" @dblclick="open_edit_modal">
                                         <th scope="row">{{ s.id }}</th>
-                                        <td>{{ s.name }}</td>
+                                        <td>{{ s.title }}</td>
                                         <td>{{ s.description.substr(0, 50) + '..' }}</td>
+                                        <td>{{ s.url.substr(0, 50) + '..' }}</td>
+
                                         <td class="no_print">
-                                            <img :src="base_url + s.id + '_' + s.name + '.jpg'"
-                                                @error="$event.target.src = base_url + 'base.jpg'" alt="No Image" width="40"
-                                                height="40" class="img-profile on-hover-l" />
-                                        </td>
-                                        <td class="no_print">
-                                            <button @click="delete_subject(s.id)" type="button"
+                                            <button @click="delete_link(s.id)" type="button"
                                                 class="btn btn-sm btn-outline-dark m-2"><i class="fa fa-trash"></i></button>
                                             <button @click="open_edit_modal()" type="button"
                                                 class="btn btn-sm btn-outline-dark m-2"><i
@@ -70,7 +73,7 @@
                 </div>
 
             </div>
-        </section><!-- End Subjects Section -->
+        </section><!-- End Links Section -->
 
 
         <!-- modal -->
@@ -79,43 +82,49 @@
             <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 v-if="!this.edit_mode" class="modal-title" id="modal_label">{{ $t("Add subject") }}</h5>
-                        <h5 v-if="this.edit_mode" class="modal-title" id="modal_label">{{ $t("Edit subject") }}</h5>
+                        <h5 v-if="!this.edit_mode" class="modal-title" id="modal_label">{{ $t("Add link") }}</h5>
+                        <h5 v-if="this.edit_mode" class="modal-title" id="modal_label">{{ $t("Edit link") }}</h5>
                         <button type="button" class="close on-hover" @click="this.closeModal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="form-group ">
-                                <div class="container ">
-                                    <div class="picture-container">
-                                        <div class="picture">
-                                            <img :src="previewImage" width="100" height="150" class="picture-src"
-                                                id="wizardPicturePreview">
-                                            <input v-on:change="onFileChange" type="file" id="wizard-picture" class="">
-                                        </div>
-                                        <br>
-                                        <h6 class=""> {{ $t("Subject Picture") }}</h6>
-                                    </div>
-                                </div>
+
+                            <div class="form-group m-3">
+                                <label> {{ $t("Subject") }}</label>
+                                <select v-model="link.subject_id"
+                                    :class="{ 'is-invalid': !this.link.subject_id && this.validate, 'is-valid': this.link.subject_id && this.validate }"
+                                    class="form-control">
+                                    <option v-for="s in this.subjects" :key="s.id" :value="s.id">{{ s.name }}</option>
+                                </select>
                             </div>
 
-                            <div class="form-group">
-                                <label for="name"> {{ $t("Subject name") }}</label>
-                                <input id="name" v-model="subject.name"
-                                    :class="{ 'is-invalid': !this.subject.name && this.validate, 'is-valid': this.subject.name && this.validate }"
+                            <div class="form-group m-3">
+                                <label for="title"> {{ $t("Link title") }}</label>
+                                <input id="title" v-model="link.title"
+                                    :class="{ 'is-invalid': !this.link.title && this.validate, 'is-valid': this.link.title && this.validate }"
                                     type="text" class="form-control">
-                                <div v-if="!this.subject.name && this.validate" class="invalid-feedback hidden">
+                                <div v-if="!this.link.title && this.validate" class="invalid-feedback hidden">
                                     {{ $t("Please Enter Name") }}
                                 </div>
                             </div>
-                            <br>
-                            <div class="form-group ">
+
+                            <div class="form-group m-3">
                                 <label for="description"> {{ $t("description") }}</label>
-                                <input id="description" v-model="subject.description" type="text" class="form-control">
+                                <input id="description" v-model="link.description" type="text" class="form-control">
                             </div>
-                            <br>
+
+                            <div class="form-group m-3">
+                                <label for="url"> {{ $t("URL") }}</label>
+                                <input id="url" v-model="link.url"
+                                    :class="{ 'is-invalid': !this.link.url && this.validate, 'is-valid': this.link.url && this.validate }"
+                                    type="text" class="form-control">
+                                <div v-if="!this.link.url && this.validate" class="invalid-feedback hidden">
+                                    {{ $t("Please Enter Name") }}
+                                </div>
+                            </div>
+
 
 
                         </form>
@@ -125,12 +134,12 @@
                             @click="this.closeModal">
                             <i class="fa fa-xmark"></i>
                         </button>
-                        <button v-if="!edit_mode" type="button" title="save" @click="save_subject()"
+                        <button v-if="!edit_mode" type="button" title="save" @click="save_link()"
                             class="btn btn-primary on-hover-sm">
                             <i class="fa fa-floppy-disk"></i></button>
-                        <button v-if="edit_mode" type="button" title="delete" @click="delete_subject(active_index)"
+                        <button v-if="edit_mode" type="button" title="delete" @click="delete_link(active_index)"
                             class="btn btn-danger on-hover-sm"> <i class="fa fa-trash"></i> </button>
-                        <button v-if="edit_mode" type="button" title="save" @click="update_subject(active_index)"
+                        <button v-if="edit_mode" type="button" title="save" @click="update_link(active_index)"
                             class="btn btn-primary on-hover-sm"> <i class="fa fa-floppy-disk"></i> </button>
                     </div>
                 </div>
@@ -151,7 +160,7 @@ export default {
     },
     data() {
         return {
-            base_url: window.location.origin + '/media/subjects/',//for images 
+            base_url: window.location.origin + '/media/links/',//for images 
             previewImage: null,// to show selected image before save
             img_file: null,
 
@@ -162,10 +171,13 @@ export default {
             edit_mode: false,
             subjects: [],
             links: [],
-            subject: {
+            link: {
                 id: '',
-                name: '',
-                description: ''
+                subject_id: '',
+                title: '',
+                description: '',
+                url: '',
+                timestamp: ''
             }
         }
     },
@@ -183,7 +195,6 @@ export default {
         },
     },
     async mounted() {
-
         await this.get_subjects();
     },
     methods: {
@@ -200,7 +211,7 @@ export default {
             if (this.img_file) {
                 let formData = new FormData()
                 formData.append('image', this.img_file)
-                return axios.post(domain_url + "/backend/upload_file/?file_name=/subjects/" + this.max_id + '_' + this.subject.name + '.jpg', formData, {
+                return axios.post(domain_url + "/backend/upload_file/?file_name=/links/" + this.max_id + '_' + this.subject.name + '.jpg', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -228,16 +239,21 @@ export default {
                 .catch(err => { alert(err) });
         },
 
-        async save_subject() {
+        get_links() {
+            return my_api.get('/backend/links/?subject_id='+this.link.subject_id)
+                .then((response) => (this.links = response.data))
+                .catch(err => { alert(err) });
+        },
+
+        async save_link() {
             try {
                 if (this.check_form()) {
                     this.saving = true;
-                    this.subject.timestamp = new Date().toLocaleString();
-                    // save subject info
-                    var response = await fetch(domain_url + "/backend/subjects/", {
+
+                    var response = await fetch(domain_url + "/backend/links/", {
                         method: "post",
                         headers: { "Content-Type": "application/json", },
-                        body: JSON.stringify(this.subject),
+                        body: JSON.stringify(this.link),
                     });
 
                     if (!response.ok) {
@@ -250,7 +266,6 @@ export default {
                         swal(this.$t("Added!"), { buttons: false, icon: "success", timer: 2000, });
                         this.get_subjects();
                         await this.get_max_id();
-                        await this.uploadImage();
 
                         this.closeModal();
                     }
@@ -260,12 +275,12 @@ export default {
             } catch (error) { console.error(); }
         },
 
-        async delete_subject(id) {
+        async delete_link(id) {
             try {
                 await swal({ title: this.$t("Are you sure to delete?"), text: "", icon: "warning", buttons: true, dangerMode: true, })
                     .then(async (willDelete) => {
                         if (willDelete) {
-                            var response = await fetch(domain_url + '/backend/subjects/' + id + '/', {
+                            var response = await fetch(domain_url + '/backend/links/' + id + '/', {
                                 method: "delete",
                                 headers: { "Content-Type": "application/json", },
                             });
@@ -276,18 +291,19 @@ export default {
                             } else {
                                 // Request was successful
                                 swal(this.$t("Deleted!"), { buttons: false, icon: "success", timer: 2000, });
-                                await this.get_subjects(); this.closeModal();
+                                await this.get_subjects();
+                                this.closeModal();
                             }
                         }
                     });
             } catch (error) { console.error(); }
         },
 
-        async update_subject(id) {
+        async update_link(id) {
             try {
                 if (this.check_form()) {
 
-                    var response = await fetch(domain_url + "/backend/subjects/" + id + "/", {
+                    var response = await fetch(domain_url + "/backend/links/" + id + "/", {
                         method: "PUT",
                         headers: { "Content-Type": "application/json", },
                         body: JSON.stringify(this.subject),
@@ -304,7 +320,7 @@ export default {
                         this.max_id = this.subject.id
                         await this.uploadImage();
 
-                        this.get_subjects();
+                        this.get_links();
                         this.closeModal();
                         this.edit_mode = false;
                     }
@@ -314,6 +330,7 @@ export default {
             }
 
         },
+
         open_add_modal() {
             this.edit_mode = false;
             this.clear_form();
@@ -339,17 +356,15 @@ export default {
         },
 
         clear_form() {
-            this.subject.name = '';
-            this.subject.description = '';
-            this.img_file = null;
-            this.previewImage = null;
+            this.link.url = '';
+            this.link.description = '';
             this.validate = false;
         },
 
         get_max_id() {
             return axios({
                 method: "get",
-                url: domain_url + "/backend/get_max_id/?table_name=Subjects",
+                url: domain_url + "/backend/get_max_id/?table_name=Links",
                 //auth: { username: "admin", password: "123", },
             }).then((response) => (this.max_id = response.data.data.id__max));
         },
@@ -358,7 +373,7 @@ export default {
             this.validate = true; //to change inputs color 'red/green'
 
             if (
-                this.subject.name
+                this.link.url
             ) {
                 return true
             } else {
@@ -368,17 +383,17 @@ export default {
 
         async row_click(index) {
             this.active_index = index; //to change row color
-            await this.get_subject(index);
+            await this.get_link(index);
 
             //this.previewImage = this.base_url + this.subject.id + '_' + this.subject.name + '.jpg';
         },
 
-        async get_subject(id) {
+        async get_link(id) {
             return axios({
                 method: "get",
-                url: domain_url + "/backend/subjects/?id=" + id,
+                url: domain_url + "/backend/links/?id=" + id,
                 auth: { username: "admin", password: "123", },
-            }).then((response) => (this.subject = response.data[0]));
+            }).then((response) => (this.link = response.data[0]));
         },
 
 

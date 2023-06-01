@@ -1,42 +1,48 @@
 <template>
     <div>
-        <div class="SubjectView" id="page-top">
-            <router-link tag="button" :to="'/'" class="btn-close" aria-label="Close"></router-link>
-        </div>
-        <div class="container">
-            <h2>{{ $route.params.subject_name }} Links </h2>
-            <br>
-            <section id="blog" class="blog rtl">
-                <div class="container" data-aos="fade-up" data-aos-delay="200">
-                    <div class="row gy-4 posts-list">
-                        <div v-for="l in links" :key="l.id" class="col-xl-4 col-md-6">
-                            <div class="post-item position-relative h-100">
-                                <div class="post-img position-relative overflow-hidden">
-                                    <img src="static/assets/img/main.jpg" class="img-fluid" alt="">
-                                    <span class="post-date">{{ l.timestamp }}</span>
-                                </div>
-                                <div class="post-content d-flex flex-column">
-                                    <h3 class="post-title">{{ l.title }}</h3>
-                                    <!-- <div class="meta d-flex align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-person"></i> <span class="ps-2">John Doe</span>
-                                        </div>
-                                        <span class="px-3 text-black-50">/</span>
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-folder2"></i> <span class="ps-2">Politics</span>
-                                        </div>
-                                    </div> -->
-                                    <p>{{ l.description }}</p>
-                                    <hr>
-                                    <a :href="'https://' + l.url" target="_blank" class="readmore stretched-link"><span>Read More</span><i
-                                            class="bi bi-arrow-right"></i></a>
+
+        <section id="services" class="services section-bg">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-header">
+                    <h2>{{ $route.params.subject_name }} </h2>
+                    <div class="post-img position-relative overflow-hidden">
+                <img :src="'media/subjects/' + this.subject_id + '_' + $route.params.subject_name + '.jpg'" class="image-container img-fluid" alt="">
+              </div>
+                    <br>
+                    <a href="/#/"><i class="fa-solid fa-house"></i></a>
+
+                </div>
+
+
+                <section id="blog" class="blog rtl">
+                    <div class="container" data-aos="fade-up" data-aos-delay="200">
+                        <div class="row gy-4 posts-list">
+                            <div v-for="l in links" :key="l.id" class="col-xl-4 col-md-6">
+                                <div class="post-item position-relative h-100">
+                                    <div class="post-img position-relative overflow-hidden">
+                                        <img src="static/assets/img/main.jpg" class="img-fluid" alt="">
+                                        <span class="post-date">{{ l.timestamp }}</span>
+                                    </div>
+                                    <div class="post-content d-flex flex-column">
+                                        <h3 class="post-title">{{ l.title }}</h3>
+                                        <p>{{ l.description }}</p>
+                                        <hr>
+                                        <a :href="'https://' + l.url" target="_blank"
+                                            class="readmore stretched-link"><span>Read
+                                                More</span><i class="bi bi-arrow-right"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+
+            </div>
+        </section>
+
+
+
     </div>
 </template>
 <script>

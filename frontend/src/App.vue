@@ -63,47 +63,7 @@
 
       <a href="#" class="scroll-top d-flex align-items-center justify-content-center active"><i
           class="bi bi-arrow-up-short"></i></a>
-      <!-- ======= Footer ======= -->
-      <footer id="footer" class="footer">
 
-        <div class="footer-content position-relative">
-          <div class="container">
-            <div class="row">
-
-              <div class="col-lg-4 col-md-6">
-                <div class="footer-info">
-                  <h3>جامعة فلسطين التقنية</h3>
-                  <p>
-                    كلية الهندسة والتكنلوجيا <br>
-                    نادي هندسة البناء<br><br>
-                    <strong>Phone:</strong> +1 5589 55488 55<br>
-                    <strong>Email:</strong> info@example.com<br>
-                  </p>
-                  <div class="social-links d-flex mt-3">
-                    <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="d-flex align-items-center justify-content-center"><i
-                        class="bi bi-facebook"></i></a>
-                    <a href="#" class="d-flex align-items-center justify-content-center"><i
-                        class="bi bi-instagram"></i></a>
-                    <a href="#" class="d-flex align-items-center justify-content-center"><i
-                        class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-              </div><!-- End footer info column-->
-
-
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-legal text-center position-relative">
-          <div class="container">
-
-          </div>
-        </div>
-
-      </footer>
-      <!-- End Footer -->
 
     </div>
 
@@ -147,7 +107,7 @@ export default {
     }
   },
   async mounted() {
-    await this.get_settings();
+    //await this.get_settings();
     this.dark_mode();
     this.set_lang();
   },

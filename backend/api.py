@@ -148,6 +148,9 @@ class links(ModelViewSet, mixins.DestroyModelMixin):
         id = self.request.query_params.get('id')
         if id is not None:
             queryset = queryset.filter(id=id)
+        subject_id = self.request.query_params.get('subject_id')
+        if subject_id is not None:
+            queryset = queryset.filter(subject_id=subject_id)
         search = self.request.query_params.get('search')
         if search is not None:
             queryset = queryset.filter(Q(name__contains=search) | Q(parent__contains=search) | Q(debit__contains=search) | Q(

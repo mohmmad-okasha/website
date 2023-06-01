@@ -7,6 +7,7 @@ import About from "../views/AboutView.vue";
 import UsersView from "../views/UsersView.vue";
 import CustomersView from "../views/CustomersView.vue";
 import DashboardView from "../views/DashboardView.vue";
+import LinksView from "../views/LinksView.vue";
 import AccountsView from "../views/AccountsView.vue";
 import LoginView from "../views/LoginView.vue";
 
@@ -36,6 +37,14 @@ const routes = [
     component: DashboardView,
     meta: {
       requiresAuth: true, // add this meta field to routes that require authentication
+    },
+  },
+  {
+    path: "/links",
+    name: "LinksView",
+    component: LinksView,
+    meta: {
+      requiresAuth: false, 
     },
   },
   {
