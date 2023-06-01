@@ -1,18 +1,18 @@
 <template>
     <div class="SubjectsView">
 
-        <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
+        <div class="breadcrumbs d-flex align-items-center" style="background-image: url('static/assets/img/dash.jpg');">
             <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate"
                 data-aos="fade">
                 <h2>Dashboard</h2>
                 <br>
-                <a href="/#/"><i class="fa-solid fa-house"></i></a>
+                <a href="#" onclick="history.back()"><i class="fa-solid fa-house"></i></a>
 
             </div>
         </div>
 
 
-        
+
         <!-- ======= Subjects Section ======= -->
         <section id="services" class="services section-bg">
             <div class="container" data-aos="fade-up">
@@ -185,6 +185,8 @@ export default {
     async mounted() {
 
         await this.get_subjects();
+        window.scrollTo(0, 0); // scroll to top on load
+
     },
     methods: {
         onFileChange(e) {
