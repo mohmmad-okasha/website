@@ -106,7 +106,7 @@ def get_links(request):
 @api_view(['GET'])
 def remove_file(request):
     file_name = request.query_params['file_name']
-    file_path = path.abspath('frontend/public/media/'+path.curdir)+file_name
+    file_path = path.abspath('frontend/dist/media/'+path.curdir)+file_name
     if (os.path.exists(file_path)):
         os.remove(os.path.join(file_path))
         return Response({'removed': 1})
