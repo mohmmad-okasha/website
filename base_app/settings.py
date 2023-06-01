@@ -142,7 +142,7 @@ STATICFILES_DIRS = [
 ]
 
 # Media root and url "for images"
-MEDIA_ROOT = os.path.join(BASE_DIR,'frontend/public/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR,'frontend/dist/media/')
 MEDIA_URL = 'media/'
 
 
