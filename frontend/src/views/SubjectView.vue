@@ -10,7 +10,8 @@
                 <img :src="'media/subjects/' + this.subject_id + '_' + $route.params.subject_name + '.jpg'" class="image-container img-fluid" alt="">
               </div>
                     <br>
-                    <a href="/#/"><i class="fa-solid fa-house"></i></a>
+                    <a href="#" onclick="history.back()"><i class="fa-solid fa-house"></i></a>
+
 
                 </div>
 
@@ -79,6 +80,8 @@ export default {
     async mounted() {
         await this.get_subject_id();
         await this.get_links();
+        window.scrollTo(0, 0); // scroll to top on load
+
     },
     methods: {
         get_subject_id() {

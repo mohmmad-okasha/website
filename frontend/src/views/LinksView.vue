@@ -1,20 +1,61 @@
 <template>
     <div class="LinksView">
 
-        <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
+        <div class="breadcrumbs d-flex align-items-center" style="background-image: url('static/assets/img/dash.jpg');">
             <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate"
                 data-aos="fade">
                 <h2>Links</h2>
                 <br>
-                <a href="/#/"><i class="fa-solid fa-house"></i></a>
-
+                <a href="#" onclick="history.back()"><i class="fa-solid fa-house"></i></a>
             </div>
         </div>
 
+        <!-- Login page -->
+        <div v-if="!this.auth.logged_in">
 
+            <section style="background-color: var(--primary);">
+                <div class="container py-5 h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                                <div class="card-body p-5 text-center">
+
+                                    <h3 class="mb-5">Sign in</h3>
+                                    <form @submit.prevent="loginUser">
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="typeEmailX-2">User Name</label>
+                                            <input type="text" v-model="username" required
+                                                class="form-control form-control-lg"
+                                                :class="{ 'is-invalid': this.error }" />
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="typePasswordX-2">Password</label>
+                                            <input type="password" v-model="password" required
+                                                class="form-control form-control-lg"
+                                                :class="{ 'is-invalid': this.error }" />
+
+                                        </div>
+
+                                        <div v-if="this.error" class="alert alert-danger" role="alert">
+                                            {{ $t("Login Error") }}
+                                        </div>
+
+                                        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
 
         <!-- ======= Links Section ======= -->
-        <section id="services" class="services section-bg">
+        <section v-if="this.auth.logged_in" id="services" class="services section-bg">
             <div class="container" data-aos="fade-up">
 
                 <!-- Links table -->
@@ -73,78 +114,80 @@
                 </div>
 
             </div>
-        </section><!-- End Links Section -->
 
+            <!-- modal -->
+            <div class="modal  fade" id="addModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 v-if="!this.edit_mode" class="modal-title" id="modal_label">{{ $t("Add link") }}</h5>
+                            <h5 v-if="this.edit_mode" class="modal-title" id="modal_label">{{ $t("Edit link") }}</h5>
+                            <button type="button" class="close on-hover" @click="this.closeModal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
 
-        <!-- modal -->
-        <div class="modal  fade" id="addModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 v-if="!this.edit_mode" class="modal-title" id="modal_label">{{ $t("Add link") }}</h5>
-                        <h5 v-if="this.edit_mode" class="modal-title" id="modal_label">{{ $t("Edit link") }}</h5>
-                        <button type="button" class="close on-hover" @click="this.closeModal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-
-                            <div class="form-group m-3">
-                                <label> {{ $t("Subject") }}</label>
-                                <select v-model="link.subject_id"
-                                    :class="{ 'is-invalid': !this.link.subject_id && this.validate, 'is-valid': this.link.subject_id && this.validate }"
-                                    class="form-control">
-                                    <option v-for="s in this.subjects" :key="s.id" :value="s.id">{{ s.name }}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group m-3">
-                                <label for="title"> {{ $t("Link title") }}</label>
-                                <input id="title" v-model="link.title"
-                                    :class="{ 'is-invalid': !this.link.title && this.validate, 'is-valid': this.link.title && this.validate }"
-                                    type="text" class="form-control">
-                                <div v-if="!this.link.title && this.validate" class="invalid-feedback hidden">
-                                    {{ $t("Please Enter Name") }}
+                                <div class="form-group m-3">
+                                    <label> {{ $t("Subject") }}</label>
+                                    <select v-model="link.subject_id"
+                                        :class="{ 'is-invalid': !this.link.subject_id && this.validate, 'is-valid': this.link.subject_id && this.validate }"
+                                        class="form-control">
+                                        <option v-for="s in this.subjects" :key="s.id" :value="s.id">{{ s.name }}</option>
+                                    </select>
                                 </div>
-                            </div>
 
-                            <div class="form-group m-3">
-                                <label for="description"> {{ $t("description") }}</label>
-                                <input id="description" v-model="link.description" type="text" class="form-control">
-                            </div>
-
-                            <div class="form-group m-3">
-                                <label for="url"> {{ $t("URL") }}</label>
-                                <input id="url" v-model="link.url"
-                                    :class="{ 'is-invalid': !this.link.url && this.validate, 'is-valid': this.link.url && this.validate }"
-                                    type="text" class="form-control">
-                                <div v-if="!this.link.url && this.validate" class="invalid-feedback hidden">
-                                    {{ $t("Please Enter Name") }}
+                                <div class="form-group m-3">
+                                    <label for="title"> {{ $t("Link title") }}</label>
+                                    <input id="title" v-model="link.title"
+                                        :class="{ 'is-invalid': !this.link.title && this.validate, 'is-valid': this.link.title && this.validate }"
+                                        type="text" class="form-control">
+                                    <div v-if="!this.link.title && this.validate" class="invalid-feedback hidden">
+                                        {{ $t("Please Enter Name") }}
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="form-group m-3">
+                                    <label for="description"> {{ $t("description") }}</label>
+                                    <input id="description" v-model="link.description" type="text" class="form-control">
+                                </div>
+
+                                <div class="form-group m-3">
+                                    <label for="url"> {{ $t("URL") }}</label>
+                                    <input id="url" v-model="link.url"
+                                        :class="{ 'is-invalid': !this.link.url && this.validate, 'is-valid': this.link.url && this.validate }"
+                                        type="text" class="form-control">
+                                    <div v-if="!this.link.url && this.validate" class="invalid-feedback hidden">
+                                        {{ $t("Please Enter Name") }}
+                                    </div>
+                                </div>
 
 
 
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="closeModal" title="close" class="btn btn-secondary on-hover-sm"
-                            @click="this.closeModal">
-                            <i class="fa fa-xmark"></i>
-                        </button>
-                        <button v-if="!edit_mode" type="button" title="save" @click="save_link()"
-                            class="btn btn-primary on-hover-sm">
-                            <i class="fa fa-floppy-disk"></i></button>
-                        <button v-if="edit_mode" type="button" title="delete" @click="delete_link(active_index)"
-                            class="btn btn-danger on-hover-sm"> <i class="fa fa-trash"></i> </button>
-                        <button v-if="edit_mode" type="button" title="save" @click="update_link(active_index)"
-                            class="btn btn-primary on-hover-sm"> <i class="fa fa-floppy-disk"></i> </button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="closeModal" title="close" class="btn btn-secondary on-hover-sm"
+                                @click="this.closeModal">
+                                <i class="fa fa-xmark"></i>
+                            </button>
+                            <button v-if="!edit_mode" type="button" title="save" @click="save_link()"
+                                class="btn btn-primary on-hover-sm">
+                                <i class="fa fa-floppy-disk"></i></button>
+                            <button v-if="edit_mode" type="button" title="delete" @click="delete_link(active_index)"
+                                class="btn btn-danger on-hover-sm"> <i class="fa fa-trash"></i> </button>
+                            <button v-if="edit_mode" type="button" title="save" @click="update_link(active_index)"
+                                class="btn btn-primary on-hover-sm"> <i class="fa fa-floppy-disk"></i> </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section><!-- End Links Section -->
+
+
+
 
     </div>
 </template>
@@ -178,7 +221,12 @@ export default {
                 description: '',
                 url: '',
                 timestamp: ''
-            }
+            },
+            auth: {
+                username: '',
+                password: '',
+                logged_in: localStorage.getItem('access_token'),
+            },
         }
     },
     computed: {
@@ -196,8 +244,37 @@ export default {
     },
     async mounted() {
         await this.get_subjects();
+        window.scrollTo(0, 0); // scroll to top on load
+
     },
     methods: {
+        async loginUser() {
+            const data = { username: this.username, password: this.password }
+            try {
+                const response = await axios.post(domain_url + '/backend/login/', data)
+                this.auth.logged_in = response.data.access
+                localStorage.setItem('access_token', this.auth.logged_in)
+                localStorage.setItem('token_time', new Date())
+
+                // redirect to dashboard or homepage after successful login
+                this.error = false;
+                this.$router.push('dashboard')
+            } catch (error) {
+                this.error = true;
+                console.log(error);
+            }
+        },
+        async logout() {
+            //to remove modal background on auto vue js reload
+            const elements = document.getElementsByClassName("modal-backdrop fade show");
+            while (elements.length > 0) {
+                elements[0].parentNode.removeChild(elements[0]);
+            }////
+            localStorage.setItem('access_token', '');
+            this.auth.logged_in = '';
+        },
+
+
         onFileChange(e) {
             try {
                 this.img_file = e.target.files[0];
@@ -240,7 +317,7 @@ export default {
         },
 
         get_links() {
-            return my_api.get('/backend/links/?subject_id='+this.link.subject_id)
+            return my_api.get('/backend/links/?subject_id=' + this.link.subject_id)
                 .then((response) => (this.links = response.data))
                 .catch(err => { alert(err) });
         },
@@ -398,5 +475,21 @@ export default {
 
 
     },
+    beforeCreate() {
+        const token = localStorage.getItem('access_token')
+        this.auth.logged_in = token
+
+        var token_time = localStorage.getItem('token_time')
+        const date1 = new Date(); // Set date1 to the current date and time
+        const date2 = new Date(token_time); // Set date2 to the date specified by date2String
+
+        const diffInMs = Math.abs(date2 - date1);
+        const diffInMinutes = Math.floor((diffInMs / 1000) / 60);
+
+        if (diffInMinutes > 30) {
+            localStorage.setItem('access_token', '');
+            localStorage.setItem('token_time', 0)
+        }
+    }
 }
 </script>

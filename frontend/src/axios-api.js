@@ -9,5 +9,4 @@ const my_api = axios.create({
 });
 
 
-
 export { my_api, domain_url }
