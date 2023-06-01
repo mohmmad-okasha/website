@@ -368,7 +368,7 @@ export default {
                             } else {
                                 // Request was successful
                                 swal(this.$t("Deleted!"), { buttons: false, icon: "success", timer: 2000, });
-                                await this.get_subjects();
+                                await this.get_links();
                                 this.closeModal();
                             }
                         }

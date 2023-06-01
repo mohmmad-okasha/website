@@ -54,7 +54,7 @@ class FileUploadView(APIView):
         file_name = self.request.query_params.get('file_name')
         image_file = request.FILES.get('image')
         file_path = path.abspath(
-            'frontend/public/media/'+path.curdir)+file_name
+            'frontend/dist/media/'+path.curdir)+file_name
         # to remove last img for this customer
         if (os.path.exists(file_path)):
             os.remove(os.path.join(file_path))
