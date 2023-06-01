@@ -80,35 +80,39 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">{{ $t("Title") }}</th>
-                                        <th scope="col">{{ $t("Description") }}</th>
-                                        <th scope="col">{{ $t("URL") }}</th>
-                                        <th scope="col" class="no_print">{{ $t("Actions") }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="s in this.links" :key="s.id" @click="row_click(s.id)"
-                                        @click.right="row_click(s.id)" @dblclick="open_edit_modal">
-                                        <th scope="row">{{ s.id }}</th>
-                                        <td>{{ s.title }}</td>
-                                        <td>{{ s.description.substr(0, 50) + '..' }}</td>
-                                        <td>{{ s.url.substr(0, 50) + '..' }}</td>
+                        <div class="card-body ">
+                            <div class="table-responsive">
 
-                                        <td class="no_print">
-                                            <button @click="delete_link(s.id)" type="button"
-                                                class="btn btn-sm btn-outline-dark m-2"><i class="fa fa-trash"></i></button>
-                                            <button @click="open_edit_modal()" type="button"
-                                                class="btn btn-sm btn-outline-dark m-2"><i
-                                                    class="fa fa-pen-to-square"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                <table class="table table-hover table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">{{ $t("Title") }}</th>
+                                            <th scope="col">{{ $t("Description") }}</th>
+                                            <th scope="col">{{ $t("URL") }}</th>
+                                            <th scope="col" class="no_print">{{ $t("Actions") }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="s in this.links" :key="s.id" @click="row_click(s.id)"
+                                            @click.right="row_click(s.id)" @dblclick="open_edit_modal">
+                                            <th scope="row">{{ s.id }}</th>
+                                            <td>{{ s.title }}</td>
+                                            <td>{{ s.description.substr(0, 50) + '..' }}</td>
+                                            <td>{{ s.url.substr(0, 50) + '..' }}</td>
+
+                                            <td class="no_print">
+                                                <button @click="delete_link(s.id)" type="button"
+                                                    class="btn btn-sm btn-outline-dark m-2"><i
+                                                        class="fa fa-trash"></i></button>
+                                                <button @click="open_edit_modal()" type="button"
+                                                    class="btn btn-sm btn-outline-dark m-2"><i
+                                                        class="fa fa-pen-to-square"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

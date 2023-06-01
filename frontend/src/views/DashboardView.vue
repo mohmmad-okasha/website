@@ -14,7 +14,7 @@
         <!-- Login page -->
         <div v-if="!this.auth.logged_in">
 
-            <section  style="background-color: var(--primary);">
+            <section style="background-color: var(--primary);">
                 <div class="container py-5 h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -76,37 +76,41 @@
                         </div>
 
                         <div class="card-body">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">{{ $t("Subject") }}</th>
-                                        <th scope="col">{{ $t("Description") }}</th>
-                                        <th scope="col" class="no_print">{{ $t("Image") }}</th>
-                                        <th scope="col" class="no_print">{{ $t("Actions") }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="s in this.subjects" :key="s.id" @click="row_click(s.id)"
-                                        @click.right="row_click(s.id)" @dblclick="open_edit_modal">
-                                        <th scope="row">{{ s.id }}</th>
-                                        <td>{{ s.name }}</td>
-                                        <td>{{ s.description.substr(0, 50) + '..' }}</td>
-                                        <td class="no_print">
-                                            <img :src="base_url + s.id + '_' + s.name + '.jpg'"
-                                                @error="$event.target.src = base_url + 'base.jpg'" alt="No Image" width="40"
-                                                height="40" class="img-profile on-hover-l" />
-                                        </td>
-                                        <td class="no_print">
-                                            <button @click="delete_subject(s.id)" type="button"
-                                                class="btn btn-sm btn-outline-dark m-2"><i class="fa fa-trash"></i></button>
-                                            <button @click="open_edit_modal()" type="button"
-                                                class="btn btn-sm btn-outline-dark m-2"><i
-                                                    class="fa fa-pen-to-square"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">{{ $t("Subject") }}</th>
+                                            <th scope="col">{{ $t("Description") }}</th>
+                                            <th scope="col" class="no_print">{{ $t("Image") }}</th>
+                                            <th scope="col" class="no_print">{{ $t("Actions") }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="s in this.subjects" :key="s.id" @click="row_click(s.id)"
+                                            @click.right="row_click(s.id)" @dblclick="open_edit_modal">
+                                            <th scope="row">{{ s.id }}</th>
+                                            <td>{{ s.name }}</td>
+                                            <td>{{ s.description.substr(0, 50) + '..' }}</td>
+                                            <td class="no_print">
+                                                <img :src="base_url + s.id + '_' + s.name + '.jpg'"
+                                                    @error="$event.target.src = base_url + 'base.jpg'" alt="No Image"
+                                                    width="40" height="40" class="img-profile on-hover-l" />
+                                            </td>
+                                            <td class="no_print">
+                                                <button @click="delete_subject(s.id)" type="button"
+                                                    class="btn btn-sm btn-outline-dark m-2"><i
+                                                        class="fa fa-trash"></i></button>
+                                                <button @click="open_edit_modal()" type="button"
+                                                    class="btn btn-sm btn-outline-dark m-2"><i
+                                                        class="fa fa-pen-to-square"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
