@@ -7,7 +7,7 @@
                 data-aos="fade">
                 <h2>Dashboard</h2>
                 <br>
-                <a href="#" onclick="history.back()"><i class="fa-solid fa-house"></i></a>
+                <a href="#" @click="$router.go(-1)"><i class="fa-solid fa-house"></i></a>
             </div>
         </div>
 

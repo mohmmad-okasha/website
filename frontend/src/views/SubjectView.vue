@@ -10,8 +10,7 @@
                 <img :src="'media/subjects/' + this.subject_id + '_' + $route.params.subject_name + '.jpg'" class="image-container img-fluid" alt="">
               </div>
                     <br>
-                    <a href="#" onclick="history.back()"><i class="fa-solid fa-house"></i></a>
-
+                    <a href="#" @click="$router.go(-1)"><i class="fa-solid fa-house"></i></a>
 
                 </div>
 

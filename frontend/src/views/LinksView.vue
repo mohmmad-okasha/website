@@ -6,7 +6,7 @@
                 data-aos="fade">
                 <h2>Links</h2>
                 <br>
-                <a href="#" onclick="history.back()"><i class="fa-solid fa-house"></i></a>
+                <a href="#" @click="$router.go(-1)"><i class="fa-solid fa-house"></i></a>
             </div>
         </div>
 
@@ -278,7 +278,6 @@ export default {
             this.auth.logged_in = '';
         },
 
-
         onFileChange(e) {
             try {
                 this.img_file = e.target.files[0];
@@ -347,7 +346,7 @@ export default {
                         swal(this.$t("Added!"), { buttons: false, icon: "success", timer: 2000, });
                         this.get_subjects();
                         await this.get_max_id();
-
+                        await this.get_links();
                         this.closeModal();
                     }
                     this.saving = false;
