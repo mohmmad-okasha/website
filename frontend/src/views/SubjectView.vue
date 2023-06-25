@@ -7,8 +7,9 @@
                 <div class="section-header">
                     <h2>{{ $route.params.subject_name }} </h2>
                     <div class="post-img position-relative overflow-hidden">
-                <img :src="'media/subjects/' + this.subject_id + '_' + $route.params.subject_name + '.jpg'" class="image-container img-fluid" alt="">
-              </div>
+                        <img :src="'media/subjects/' + this.subject_id + '_' + $route.params.subject_name + '.jpg'"
+                            class="image-container img-fluid" alt="">
+                    </div>
                     <br>
                     <a href="#" @click="$router.go(-1)"><i class="fa-solid fa-house"></i></a>
 
@@ -16,6 +17,12 @@
 
 
                 <section id="blog" class="blog rtl">
+
+                    <div class="form-floating mb-5 rtl">
+                        <input type="text" class="form-control" v-model="search" placeholder="name@example.com">
+                        <label for="floatingInput">بحث</label>
+                    </div>
+
                     <div class="container" data-aos="fade-up" data-aos-delay="200">
                         <div class="row gy-4 posts-list">
                             <div v-for="l in links" :key="l.id" class="col-xl-4 col-md-6">
@@ -29,8 +36,8 @@
                                         <p>{{ l.description }}</p>
                                         <hr>
                                         <a :href="'https://' + l.url" target="_blank"
-                                            class="readmore stretched-link"><span>Read
-                                                More</span><i class="bi bi-arrow-right"></i></a>
+                                            class="readmore stretched-link"><span>Open</span><i
+                                                class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -58,24 +65,26 @@ export default {
     },
     data() {
         return {
+            search: '',
             subject: '',
             subject_id: '',
             links: [],
         }
     },
-    computed: {
-        search() {
-            let data = this.$parent.$refs.NavBar.search
-            if (data && data.trim()) { // data.trim() to check data not spaces only
-                return axios({
-                    method: "get",
-                    url: domain_url + "/backend/links/?search=" + data,
-                }).then((response) => (this.links = response.data));
-            } else {
-                this.get_links();
-            }
-        },
-    },
+    watch: {
+    search(newValue) {
+      if (newValue && newValue.trim()) { // data.trim() to check data not spaces only
+        return axios({
+          method: "get",
+          url: domain_url + "/backend/links/?search=" + newValue+"&subject_id=" + this.subject_id,
+        }).then((response) => (this.links = response.data));
+      } else {
+        this.get_links();
+      }
+    }
+
+  },
+
     async mounted() {
         await this.get_subject_id();
         await this.get_links();

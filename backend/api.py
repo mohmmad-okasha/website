@@ -1,7 +1,7 @@
 import os
 from os import path
 
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Subjects
 from .models import Links
 from .models import Settings
@@ -25,6 +25,9 @@ from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.tokens import RefreshToken
+
+
+
 
 #####################################################################################
 
@@ -128,8 +131,7 @@ class subjects(ModelViewSet, mixins.DestroyModelMixin):
             queryset = queryset.filter(id=id)
         search = self.request.query_params.get('search')
         if search is not None:
-            queryset = queryset.filter(Q(name__contains=search) | Q(type__contains=search) | Q(address__contains=search) | Q(
-                id_type__contains=search) | Q(id_number__contains=search) | Q(mobile__contains=search) | Q(notes__contains=search))
+            queryset = queryset.filter(Q(name__contains=search))
         return queryset
 
     def put(self, request, *args, **kwargs):
@@ -153,8 +155,8 @@ class links(ModelViewSet, mixins.DestroyModelMixin):
             queryset = queryset.filter(subject_id=subject_id)
         search = self.request.query_params.get('search')
         if search is not None:
-            queryset = queryset.filter(Q(name__contains=search) | Q(parent__contains=search) | Q(debit__contains=search) | Q(
-                credit__contains=search) | Q(user__contains=search))
+            queryset = queryset.filter(Q(title__contains=search),subject_id=subject_id)
+
         return queryset
 
     def put(self, request, *args, **kwargs):

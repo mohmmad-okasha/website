@@ -19,7 +19,7 @@ urlpatterns += [
     path("get_max_id/", api.get_max_id, name="get_max_id"),
     # to remove file
     path("remove_file/", api.remove_file, name="remove_file"),
-
+    
 
     # subjects
     path("subject_delete/<int:id>", api.subjects.destroy, name="subject_delete"),

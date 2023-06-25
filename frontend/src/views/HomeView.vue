@@ -44,7 +44,13 @@
 
         <div class="section-header">
           <h2>المواد</h2>
+
+          <div class="form-floating mb-5 rtl">
+            <input type="text" class="form-control" v-model="search" placeholder="name@example.com">
+            <label for="floatingInput">بحث</label>
+          </div>
         </div>
+
         <div class="row gy-4 rtl">
           <div v-for="s in subjects" :key="s.id" class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
 
@@ -80,12 +86,19 @@
                   <strong>Email:</strong> info@example.com<br>
                 </p> -->
                 <div class="social-links d-flex mt-3">
-                  <a target="_blank" href="https://www.facebook.com/profile.php?id=100063528045057&mibextid=ZbWKwL" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
-                  <a target="_blank" href="https://l.facebook.com/l.php?u=https%3A%2F%2Ft.me%2Fbeclub2022%3Ffbclid%3DIwAR2UKCFRoRjpzgtaRDpVmvHyFA2s-Eaf6uDPH8UQk_S-oVMTZKWbg787-bg&h=AT23yxNiq63dtJmxysxI9y3sXiPW7zrg7DLuCUgjAM34m88b8L68x6KdnqMRrMmHRlK2YJHXP4agwkoGmVrTOrkloTuVVXR58ayUkBALsfCjU6try-TzipS4_jf749HHb3pYFA" class="d-flex align-items-center justify-content-center"><i class="bi bi-telegram"></i></a>
-                  <a target="_blank" href="https://l.facebook.com/l.php?u=https%3A%2F%2Fyoutube.com%2F%40ABDELFATTAHSAMARA%3Ffbclid%3DIwAR34NJNafV0bFHITBI62lIX7awYkYiW1sn5zanyoniNr-CTOqyAYHI2SX_I&h=AT1TpCNe1vycJvSgZoT4a0H8H5K-SJV8C_H2Jk69YPZ0DLqnrGvxa6wNpg81S8UNhchBxXDWkbqLE5qFhOwMt1oGGJrGcXtA9L18XLUHsk_EJGBUlvNmmcAm7_qx4KU6SMM7IzXMVYn14-o" class="d-flex align-items-center justify-content-center"><i class="bi bi-youtube"></i></a>
-                  <router-link tag="a" to="dashboard" class="d-flex align-items-center justify-content-center"><i class="bi bi-book"></i></router-link>
-                  <router-link tag="a" to="links" class="d-flex align-items-center justify-content-center"><i class="bi bi-link"></i></router-link>
-                  </div>
+                  <a target="_blank" href="https://www.facebook.com/profile.php?id=100063528045057&mibextid=ZbWKwL"
+                    class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+                  <a target="_blank"
+                    href="https://l.facebook.com/l.php?u=https%3A%2F%2Ft.me%2Fbeclub2022%3Ffbclid%3DIwAR2UKCFRoRjpzgtaRDpVmvHyFA2s-Eaf6uDPH8UQk_S-oVMTZKWbg787-bg&h=AT23yxNiq63dtJmxysxI9y3sXiPW7zrg7DLuCUgjAM34m88b8L68x6KdnqMRrMmHRlK2YJHXP4agwkoGmVrTOrkloTuVVXR58ayUkBALsfCjU6try-TzipS4_jf749HHb3pYFA"
+                    class="d-flex align-items-center justify-content-center"><i class="bi bi-telegram"></i></a>
+                  <a target="_blank"
+                    href="https://l.facebook.com/l.php?u=https%3A%2F%2Fyoutube.com%2F%40ABDELFATTAHSAMARA%3Ffbclid%3DIwAR34NJNafV0bFHITBI62lIX7awYkYiW1sn5zanyoniNr-CTOqyAYHI2SX_I&h=AT1TpCNe1vycJvSgZoT4a0H8H5K-SJV8C_H2Jk69YPZ0DLqnrGvxa6wNpg81S8UNhchBxXDWkbqLE5qFhOwMt1oGGJrGcXtA9L18XLUHsk_EJGBUlvNmmcAm7_qx4KU6SMM7IzXMVYn14-o"
+                    class="d-flex align-items-center justify-content-center"><i class="bi bi-youtube"></i></a>
+                  <router-link tag="a" to="dashboard" class="d-flex align-items-center justify-content-center"><i
+                      class="bi bi-book"></i></router-link>
+                  <router-link tag="a" to="links" class="d-flex align-items-center justify-content-center"><i
+                      class="bi bi-link"></i></router-link>
+                </div>
               </div>
 
             </div><!-- End footer info column-->
@@ -116,14 +129,28 @@ export default {
   components: {
     NavBar,
   },
+  watch: {
+    search(newValue) {
+      if (newValue && newValue.trim()) { // data.trim() to check data not spaces only
+        return axios({
+          method: "get",
+          url: domain_url + "/backend/subjects/?search=" + newValue,
+        }).then((response) => (this.subjects = response.data));
+      } else {
+        this.get_subjects();
+      }
+    }
+
+  },
   data() {
     return {
       subjects: [],
+      search: '',
     }
   },
   computed: {
     search() {
-      let data = this.$parent.$refs.NavBar.search
+      let data = search
       if (data && data.trim()) { // data.trim() to check data not spaces only
         return axios({
           method: "get",
