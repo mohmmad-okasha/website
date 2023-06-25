@@ -6,7 +6,7 @@ from django.db import models
 
 class Subjects(models.Model):
     name = models.CharField(max_length=50,unique=True)
-    description = models.CharField(max_length=300)
+    description = models.CharField(blank=True,max_length=300)
     timestamp = models.CharField(blank=True,max_length=50)
 
     def __str__(self):

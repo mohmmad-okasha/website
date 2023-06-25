@@ -81,7 +81,7 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <!-- <th scope="col">#</th> -->
                                             <th scope="col">{{ $t("Subject") }}</th>
                                             <th scope="col">{{ $t("Description") }}</th>
                                             <th scope="col" class="no_print">{{ $t("Image") }}</th>
@@ -91,7 +91,7 @@
                                     <tbody>
                                         <tr v-for="s in this.subjects" :key="s.id" @click="row_click(s.id)"
                                             @click.right="row_click(s.id)" @dblclick="open_edit_modal">
-                                            <th scope="row">{{ s.id }}</th>
+                                            <!-- <th scope="row">{{ s.id }}</th> -->
                                             <td>{{ s.name }}</td>
                                             <td>{{ s.description.substr(0, 50) + '..' }}</td>
                                             <td class="no_print">

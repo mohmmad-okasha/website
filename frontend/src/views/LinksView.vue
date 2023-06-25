@@ -86,7 +86,7 @@
                                 <table class="table table-hover table-responsive">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <!-- <th scope="col">#</th> -->
                                             <th scope="col">{{ $t("Title") }}</th>
                                             <th scope="col">{{ $t("Description") }}</th>
                                             <th scope="col">{{ $t("URL") }}</th>
@@ -96,7 +96,7 @@
                                     <tbody>
                                         <tr v-for="s in this.links" :key="s.id" @click="row_click(s.id)"
                                             @click.right="row_click(s.id)" @dblclick="open_edit_modal">
-                                            <th scope="row">{{ s.id }}</th>
+                                            <!-- <th scope="row">{{ s.id }}</th> -->
                                             <td>{{ s.title }}</td>
                                             <td>{{ s.description.substr(0, 50) + '..' }}</td>
                                             <td>{{ s.url.substr(0, 50) + '..' }}</td>
