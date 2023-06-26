@@ -6,8 +6,10 @@
             <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate"
                 data-aos="fade">
                 <h2>Dashboard</h2>
+                <h4><router-link tag="a" href="#" to="links">Links <i class="fa-solid fa-link"></i></router-link></h4>
+
                 <br>
-                <a href="#" @click="$router.go(-1)"><i class="fa-solid fa-house"></i></a>
+                <h4><a href="#" @click="$router.go(-1)"><i class="fa-solid fa-arrow-left"></i></a></h4>
             </div>
         </div>
 

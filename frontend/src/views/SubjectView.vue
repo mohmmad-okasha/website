@@ -12,8 +12,7 @@
                             class="image-container img-fluid" alt="">
                     </div>
                     <br>
-                    <a href="#" @click="$router.go(-1)"><i class="fa-solid fa-house"></i></a>
-
+                    <h4><a href="#" @click="$router.go(-1)"><i class="fa-solid fa-arrow-left"></i></a></h4>
                 </div>
 
 

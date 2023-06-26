@@ -6,7 +6,7 @@
                 data-aos="fade">
                 <h2>Links</h2>
                 <br>
-                <a href="#" @click="$router.go(-1)"><i class="fa-solid fa-house"></i></a>
+                <h4><a href="#" @click="$router.go(-1)"><i class="fa-solid fa-arrow-left"></i></a></h4>
             </div>
         </div>
 
@@ -233,6 +233,7 @@ export default {
             },
         }
     },
+    
     computed: {
         search() {
             let data = this.$parent.$refs.NavBar.search
@@ -329,6 +330,8 @@ export default {
             try {
                 if (this.check_form()) {
                     this.saving = true;
+                    //remove http from url
+                    this.link.url = this.link.url.replace(/^(https?|ftp):\/\//, '');
 
                     var response = await fetch(domain_url + "/backend/links/", {
                         method: "post",
