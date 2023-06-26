@@ -86,7 +86,7 @@
                                             <!-- <th scope="col">#</th> -->
                                             <th scope="col">{{ $t("Subject") }}</th>
                                             <th scope="col">{{ $t("Description") }}</th>
-                                            <th scope="col" class="no_print">{{ $t("Image") }}</th>
+                                            <!-- <th scope="col" class="no_print">{{ $t("Image") }}</th> -->
                                             <th scope="col" class="no_print">{{ $t("Actions") }}</th>
                                         </tr>
                                     </thead>
@@ -96,11 +96,11 @@
                                             <!-- <th scope="row">{{ s.id }}</th> -->
                                             <td>{{ s.name }}</td>
                                             <td>{{ s.description.substr(0, 50) + '..' }}</td>
-                                            <td class="no_print">
+                                            <!-- <td class="no_print">
                                                 <img :src="base_url + s.id + '_' + s.name + '.jpg'"
                                                     @error="$event.target.src = base_url + 'base.jpg'" alt="No Image"
                                                     width="40" height="40" class="img-profile on-hover-l" />
-                                            </td>
+                                            </td> -->
                                             <td class="no_print">
                                                 <button @click="delete_subject(s.id)" type="button"
                                                     class="btn btn-sm btn-outline-dark m-2"><i
