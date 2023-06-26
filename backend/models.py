@@ -21,7 +21,7 @@ class Links(models.Model):
     subject_id = models.ForeignKey(Subjects, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     description = models.CharField(blank=True,max_length=300)
-    url = models.CharField(max_length=50)
+    url = models.CharField(max_length=1000)
     timestamp = models.CharField(blank=True,max_length=50)
 
     
