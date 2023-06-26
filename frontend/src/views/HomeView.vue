@@ -61,7 +61,7 @@
               <p>{{ s.description.substr(0, 40) + '..' }}</p>
               <a class="readmore stretched-link"></a>
               <div class="post-img position-relative overflow-hidden">
-                <img :src="'media/subjects/' + s.id + '_' + s.name + '.jpg'" class="image-container img-fluid" alt="">
+                <img v-if="imageExists(s)" :src="'media/subjects/' + s.id + '_' + s.name + '.jpg'" class="image-container img-fluid" alt="">
               </div>
             </router-link>
           </div><!-- End Service Item -->
@@ -148,19 +148,7 @@ export default {
       search: '',
     }
   },
-  computed: {
-    search() {
-      let data = search
-      if (data && data.trim()) { // data.trim() to check data not spaces only
-        return axios({
-          method: "get",
-          url: domain_url + "/backend/subjects/?search=" + data,
-        }).then((response) => (this.subjects = response.data));
-      } else {
-        this.get_subjects();
-      }
-    },
-  },
+
   async mounted() {
     await this.get_subjects();
   },
@@ -173,7 +161,16 @@ export default {
     go_to() {
       const myDiv = document.getElementById('services'); // Replace 'myDiv' with the ID of your target div
       myDiv.scrollIntoView({ behavior: 'smooth' });
-    }
+    },
+    imageExists(subject) {
+      const imageUrl = `media/subjects/${subject.id}_${subject.name}.jpg`;
+      const http = new XMLHttpRequest();
+
+      http.open('HEAD', imageUrl, false);
+      http.send();
+
+      return http.status !== 404;
+    },
   }
 };
 </script>
