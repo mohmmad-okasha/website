@@ -163,13 +163,10 @@ export default {
       myDiv.scrollIntoView({ behavior: 'smooth' });
     },
     imageExists(subject) {
-      const imageUrl = `media/subjects/${subject.id}_${subject.name}.jpg`;
-      const http = new XMLHttpRequest();
-
-      http.open('HEAD', imageUrl, false);
-      http.send();
-
-      return http.status !== 404;
+      const imgPath = `media/subjects/${subject.id}_${subject.name}.jpg`;
+      const img = new Image();
+      img.src = imgPath;
+      return img.complete && img.naturalWidth !== 0;
     },
   }
 };
