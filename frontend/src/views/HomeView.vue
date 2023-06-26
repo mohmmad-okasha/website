@@ -58,7 +58,7 @@
 
 
               <h3>{{ s.name }}</h3>
-              <p>{{ s.description.substr(0, 40) + '..' }}</p>
+              <p v-if="s.description">{{ s.description.substr(0, 40) + '..' }}</p>
               <a class="readmore stretched-link"></a>
               <div class="post-img position-relative overflow-hidden">
                 <img v-if="imageExists(s)" :src="'media/subjects/' + s.id + '_' + s.name + '.jpg'" class="image-container img-fluid" alt="">
