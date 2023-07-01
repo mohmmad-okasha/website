@@ -389,7 +389,7 @@ export default {
                     var response = await fetch(domain_url + "/backend/links/" + id + "/", {
                         method: "PUT",
                         headers: { "Content-Type": "application/json", },
-                        body: JSON.stringify(this.subject),
+                        body: JSON.stringify(this.link),
                     });
 
                     if (!response.ok) {
@@ -400,8 +400,6 @@ export default {
                         // Request was successful
 
                         swal(this.$t("Updated!"), { buttons: false, icon: "success", timer: 2000, });
-                        this.max_id = this.subject.id
-                        await this.uploadImage();
 
                         this.get_links();
                         this.closeModal();
